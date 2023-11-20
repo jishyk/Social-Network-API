@@ -17,7 +17,6 @@ const reactionSchema = new mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now,
-    // Optionally, include a getter method to format the timestamp
   },
 }, {
   toJSON: {
@@ -36,7 +35,6 @@ const ThoughtSchema = new mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now,
-    // Optionally, include a getter method to format the timestamp
   },
   username: {
     type: String,
