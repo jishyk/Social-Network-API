@@ -10,11 +10,11 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/socialNetworkDB
 
 const seedDatabase = async () => {
   try {
-    // Clear existing data
+
     await User.deleteMany({});
     await Thought.deleteMany({});
 
-    // Add new data
+
     await User.insertMany(users);
     await Thought.insertMany(thoughts);
 

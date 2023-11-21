@@ -11,12 +11,33 @@ const users = [
     thoughts: [],
     friends: []
   },
-  // Add more users as needed
+  {
+    username: "Jason Bourne",
+    email: "JasonBourne@Bourne.com",
+    thoughts: [],
+    friends: []
+  },
+  {
+    username: "Willy Wonka",
+    email: "WillyWonka@Wonka.com",
+    thoughts: [],
+    friends: []
+  },
 ];
 
 const thoughts = [
   {
-    thoughtText: "Here's a cool thought...",
+    thoughtText: "I love Chocolate!",
+    username: "Willy Wonka",
+    reactions: []
+  },
+  {
+    thoughtText: "I must win.",
+    username: "Jason Bourne",
+    reactions: []
+  },
+  {
+    thoughtText: "Who am I?",
     username: "John Doe",
     reactions: []
   },
@@ -25,7 +46,7 @@ const thoughts = [
     username: "Jake Woe",
     reactions: []
   },
-  // Add more thoughts as needed
+
 ];
 
 module.exports = { users, thoughts };

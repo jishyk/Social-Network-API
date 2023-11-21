@@ -10,10 +10,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/socialNetworkDB', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
 });
 
+// Use routes
 app.use('/api/users', userRoutes);
 app.use('/api/thoughts', thoughtRoutes);
 

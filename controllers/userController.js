@@ -1,25 +1,120 @@
 const User = require('../models/User');
-
-exports.getAllUsers = async (req, res) => {
-    try {
-      const users = await User.find({}).populate('thoughts').populate('friends');
-      res.json(users);
-    } catch (error) {
-      res.status(500).send(error);
-    }
-  };
-
+const Thought = require('../models/Thought');
 
 const userController = {
-  getAllUsers: async (req, res) => {
-    
-  },
-  getUserById: async (req, res) => {
- 
-  }
+    // GET all users
+    getAllUsers: async (req, res) => {
+        try {
+            const users = await User.find({})
+                .populate({ path: 'thoughts', select: '-__v' })
+                .select('-__v')
+                .sort({ _id: -1 });
+            res.json(users);
+        } catch (err) {
+            console.log(err);
+            res.status(500).json(err);
+        }
+    },
+
+    // GET a single user by its _id and populated thought and friend data
+    getUserById: async (req, res) => {
+        try {
+            const user = await User.findOne({ _id: req.params.userId })
+                .populate({ path: 'thoughts', select: '-__v' })
+                .populate('friends')
+                .select('-__v');
+
+            if (!user) {
+                return res.status(404).json({ message: 'No user with that id' });
+            };
+
+            res.json(user);
+        } catch (err) {
+            console.log(err);
+            res.status(500).json(err);
+        }
+    },
+
+    // POST a new user
+    createUser: async (req, res) => {
+        try {
+            const user = await User.create(req.body);
+            res.status(200).json(user);
+        } catch (err) {
+            res.status(500).json(err);
+        }
+    },
+
+    // PUT to update a user by its _id
+    updateUser: async (req, res) => {
+        try {
+            const user = await User.findOneAndUpdate(
+                { _id: req.params.userId },
+                req.body,
+                { runValidators: true, new: true }
+            );
+
+            if (!user) {
+                return res.status(404).json({ message: 'No user with that id' });
+            };
+
+            res.json(user);
+        } catch (err) {
+            res.status(500).json(err);
+        }
+    },
+
+    // DELETE to remove a user by its _id
+    deleteUser: async (req, res) => {
+        try {
+            const user = await User.findOneAndDelete({ _id: req.params.userId });
+
+            if (!user) {
+                return res.status(404).json({ message: 'No user with that id' });
+            };
+
+            await Thought.deleteMany({ username: user.username });
+            res.json({ message: `User ${user._id} deleted!` });
+        } catch (err) {
+            res.status(500).json(err);
+        }
+    },
+
+    // POST to add a new friend to a user's friend list
+    addFriend: async (req, res) => {
+        try {
+            const user = await User.findOneAndUpdate(
+                { _id: req.params.userId },
+                { $addToSet: { friends: req.params.friendId } },
+                { runValidators: true, new: true }
+            );
+
+            if (!user) {
+                return res.status(404).json({ message: 'No user with that id' });
+            };
+            res.json({ message: `Friend ${req.params.friendId} added to user ${user._id}!` });
+        } catch (err) {
+            res.status(500).json(err);
+        }
+    },
+
+    // DELETE to remove a friend from a user's friend list
+    removeFriend: async (req, res) => {
+        try {
+            const user = await User.findOneAndUpdate(
+                { _id: req.params.userId },
+                { $pull: { friends: req.params.friendId } },
+                { runValidators: true, new: true }
+            );
+
+            if (!user) {
+                return res.status(404).json({ message: 'No user with that id' });
+            };
+            res.json({ message: `Friend ${req.params.friendId} removed from user ${user._id}!` });
+        } catch (err) {
+            res.status(500).json(err);
+        }
+    }
 };
 
 module.exports = userController;
-
-
-// will be adding more users to the database

@@ -1,11 +1,12 @@
-const router = require('express').Router();
-const userRoutes = require('./api/userRoutes');
-const thoughtRoutes = require('./api/thoughtRoutes');
-const apiRoutes = require('./api/index'); 
+const express = require('express');
+const router = express.Router();
+const { userController, thoughtController } = require('../controllers');
 
-// Add routes
-router.use('/users', userRoutes);
-router.use('/thoughts', thoughtRoutes);
-router.use('/api', apiRoutes); 
+router.get('/users', userController.getAllUsers);
+router.get('/users/:userId', userController.getUserById);
+router.get('/thoughts', thoughtController.getAllThoughts);
+router.get('/thoughts/:thoughtId', thoughtController.getThoughtById);
+
+// ... other route definitions ...
 
 module.exports = router;
