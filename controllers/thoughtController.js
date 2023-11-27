@@ -80,19 +80,26 @@ const thoughtController = {
     // Add a reaction to a thought
     addReaction: async (req, res) => {
         try {
+            console.log("Adding reaction to thoughtId:", req.params.thoughtId);
+            console.log("Reaction data:", req.body);
+    
             const thought = await Thought.findOneAndUpdate(
                 { _id: req.params.thoughtId },
                 { $addToSet: { reactions: req.body } },
-                { runValidators: true, new: true }
+                { new: true, runValidators: true }
             );
+    
             if (!thought) {
+                console.log("No thought found with this id");
                 return res.status(404).json({ message: 'No thought with that id' });
             }
-            res.json(`Reaction added to thought ${req.params.thoughtId}!`);
+            res.json(thought);
         } catch (error) {
+            console.error("Error in addReaction:", error);
             res.status(500).json(error);
         }
     },
+    
 
     // Remove a reaction from a thought
     removeReaction: async (req, res) => {

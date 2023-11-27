@@ -1,18 +1,18 @@
 const users = [
   {
-    username: "John Doe",
+    username: "JohnDoe",
     email: "JohnDoe@Doe.com",
     thoughts: [],
     friends: []
   },
   {
-    username: "Jake Woe",
+    username: "JakeWoe",
     email: "JakeWoe@Woe.com",
     thoughts: [],
     friends: []
   },
   {
-    username: "Jason Bourne",
+    username: "JasonBourne",
     email: "JasonBourne@Bourne.com",
     thoughts: [],
     friends: []
@@ -38,12 +38,12 @@ const thoughts = [
   },
   {
     thoughtText: "Who am I?",
-    username: "John Doe",
+    username: "JohnDoe",
     reactions: []
   },
   {
     thoughtText: "Another interesting thought...",
-    username: "Jake Woe",
+    username: "JakeWoe",
     reactions: []
   },
 
