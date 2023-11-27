@@ -20,7 +20,8 @@ router.put('/:userId', updateUser);
 router.delete('/:userId', deleteUser);
 
 // POST route to add a friend to a user's friend list
-router.post('/:userId/friends', addFriend);
+// This route should include both the userId and the friendId as parameters
+router.post('/:userId/friends/:friendId', addFriend);
 
 // DELETE route to remove a friend from a user's friend list
 router.delete('/:userId/friends/:friendId', removeFriend);

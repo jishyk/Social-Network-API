@@ -81,40 +81,44 @@ const userController = {
     },
 
     // POST to add a new friend to a user's friend list
+    // Add a new friend to a user's friend list
     addFriend: async (req, res) => {
-        try {
-            const user = await User.findOneAndUpdate(
-                { _id: req.params.userId },
-                { $addToSet: { friends: req.params.friendId } },
-                { runValidators: true, new: true }
-            );
+    try {
+        const user = await User.findOneAndUpdate(
+            { _id: req.params.userId },
+            { $addToSet: { friends: req.params.friendId } },
+            { new: true, runValidators: true }
+        );
 
-            if (!user) {
-                return res.status(404).json({ message: 'No user with that id' });
-            };
-            res.json({ message: `Friend ${req.params.friendId} added to user ${user._id}!` });
-        } catch (err) {
-            res.status(500).json(err);
+        if (!user) {
+            return res.status(404).json({ message: 'No user found with this ID' });
         }
-    },
 
-    // DELETE to remove a friend from a user's friend list
-    removeFriend: async (req, res) => {
-        try {
-            const user = await User.findOneAndUpdate(
-                { _id: req.params.userId },
-                { $pull: { friends: req.params.friendId } },
-                { runValidators: true, new: true }
-            );
-
-            if (!user) {
-                return res.status(404).json({ message: 'No user with that id' });
-            };
-            res.json({ message: `Friend ${req.params.friendId} removed from user ${user._id}!` });
-        } catch (err) {
-            res.status(500).json(err);
-        }
+        res.json({ message: `Friend added to user ${req.params.userId}` });
+    } catch (err) {
+        res.status(500).json(err);
     }
+},
+
+    // Remove a friend from a user's friend list
+    removeFriend: async (req, res) => {
+    try {
+        const user = await User.findOneAndUpdate(
+            { _id: req.params.userId },
+            { $pull: { friends: req.params.friendId } },
+            { new: true, runValidators: true }
+        );
+
+        if (!user) {
+            return res.status(404).json({ message: 'No user found with this ID' });
+        }
+
+        res.json({ message: `Friend removed from user ${req.params.userId}` });
+    } catch (err) {
+        res.status(500).json(err);
+    }
+},
 };
+
 
 module.exports = userController;

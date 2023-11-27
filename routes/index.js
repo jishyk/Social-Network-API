@@ -1,12 +1,8 @@
-const express = require('express');
 const router = express.Router();
-const { userController, thoughtController } = require('../controllers');
+const apiRoutes = require('./api');
 
-router.get('/users', userController.getAllUsers);
-router.get('/users/:userId', userController.getUserById);
-router.get('/thoughts', thoughtController.getAllThoughts);
-router.get('/thoughts/:thoughtId', thoughtController.getThoughtById);
+router.use('/api', apiRoutes);
 
-// ... other route definitions ...
+router.use((req, res) => res.send('Wrong route!'));
 
 module.exports = router;
